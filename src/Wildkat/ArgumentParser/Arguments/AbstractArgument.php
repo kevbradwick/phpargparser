@@ -2,13 +2,18 @@
 
 namespace Wildkat\ArgumentParser\Arguments;
 
+/**
+ * AbstractArgument.
+ * 
+ * @author Kevn Bradwick <kbradwick@gmail.com>
+ */
 abstract class AbstractArgument implements ArgumentInterface
 {
     /**
      * The argument representation
-     * @var string
+     * @var array
      */
-    protected $argument;
+    protected $argument = array();
 
     /**
      * @var string
@@ -26,6 +31,12 @@ abstract class AbstractArgument implements ArgumentInterface
      * @var mixed
      */
     protected $default;
+        
+    /**
+     * An optional callback that handles the value
+     * @var array|string|Closure
+     */
+    private $_callback;
     
     /**
      * Class construct
@@ -37,14 +48,32 @@ abstract class AbstractArgument implements ArgumentInterface
      */
     public function __construct($argument, array $options=array())
     {
-        if (substr($argument, 0, 1) === '-' || substr($argument, 0, 2) === '--') {
-            
-        } else {
-            throw new ArgumentException('Invalid argument specified');
-        }
+        $this->setArgument($argument);
         
     }//end __construct()
     
+    /**
+     * Set the argument flag
+     * 
+     * @param type $argument the argument flag
+     * 
+     * @return null
+     * @throws ArgumentException
+     */
+    public function setArgument($argument)
+    {
+        $message = sprintf('"%s" is an invalid argument type', $argument);
+        $pattern = '/^(\-{1}[a-z]{1})|(\-{2}[a-z]{2,}\-*[a-z]*)$/';
+        
+        if (preg_match($pattern, $argument) === 0) {
+            throw new ArgumentException($message);
+        }
+        
+        $this->argument[$argument] = array();
+        
+    }//end setArgument()
+
+
     /**
      * Show the help message for this argument
      * 

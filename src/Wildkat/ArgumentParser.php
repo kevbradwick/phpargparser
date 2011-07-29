@@ -2,6 +2,8 @@
 
 namespace Wildkat;
 
+use Wildkat\ArgumentParser\ArgumentParserException;
+
 /**
  * ArgumentParser
  * 
@@ -57,6 +59,18 @@ final class ArgumentParser
      */
     public function addArgument($argument, array $options=array())
     {
+        if (isset($this->arguments[$argument]) === true) {
+            throw new ArgumentParserException(
+                sprintf(
+                    'The argument [%s] has already been specified',
+                    $argument
+                )
+            );
+        }
+        
+        $default = array(
+            ''
+        );
         
     }//end addArgument()
     
