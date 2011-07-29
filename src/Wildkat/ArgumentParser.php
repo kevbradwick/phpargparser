@@ -7,7 +7,7 @@ namespace Wildkat;
  * 
  * @author Kevin Bradwick <kbradwick@gmail.com>
  */
-class ArgumentParser
+final class ArgumentParser
 {
     /**
      * @var string
@@ -25,6 +25,12 @@ class ArgumentParser
     protected $version;
     
     /**
+     * @var array
+     */
+    protected $arguments = array();
+
+
+    /**
      * Set the application parameters here
      * 
      * @param string $title       the title of this command line application
@@ -40,5 +46,18 @@ class ArgumentParser
         $this->version     = $version;
         
     }//end __construct()
+    
+    /**
+     * Add an argument
+     * 
+     * @param string  $argument the argument
+     * @param array   $options  an array of options passed to argument construct
+     * 
+     * @return null
+     */
+    public function addArgument($argument, array $options=array())
+    {
+        
+    }//end addArgument()
     
 }//endclass
