@@ -48,9 +48,17 @@ abstract class AbstractArgument implements ArgumentInterface
      * 
      * @return AbstractArgument
      */
-    public function __construct()
+    public function __construct($argument='', array $options=array())
     {
+        if (strlen($argument) > 0) {
+            $this->setArgument($argument);
+        }
         
+        foreach ($options as $name => $opt) {
+            if (method_exists($this, 'set' . $name) === true) {
+                $this->{'set' . $name}($opt);
+            }
+        }
         
     }//end __construct()
     
