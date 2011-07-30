@@ -3,23 +3,23 @@
 namespace Wildkat\ArgumentParser\Arguments;
 
 /**
- * String Argument.
+ * ArrayArgument
  * 
  * @author  Kevin Bradwick <kbradwick@gmail.com>
  * @link    https://github.com/kevbradwick/phpargparser
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
-final class StringArgument extends AbstractArgument
+class ArrayArgument extends AbstractArgument
 {
     /**
-     * Get the value of this argument
+     * Get the value
      * 
-     * @return string
+     * @return array
      */
     public function getValue()
     {
-        return (string) $this->value;
+        return explode(',', $this->value);
         
-    }//end getValue()
+    }//end setValue()
     
-}//endClass
+}//end class

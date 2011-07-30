@@ -14,41 +14,61 @@ use Wildkat\ArgumentParser\Arguments\StringArgument,
 class StringArgumentTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test invalid argument types
+     * Test the argument returns as a string
      * 
      * @return null
      */
-    public function testExceptionThrownForInvalidArgumentTypes()
+    public function testValueIsString()
     {
-        // no hyphen
-        try {
-            $arg = new StringArgument('f');
-            $this->fail('f passed as a valid argument');
-        } catch (ArgumentException $e) {
-            $this->assertTrue(true, 'Invalid argument caught "f"');
-        }
+        $arg = new StringArgument();
         
-        // three hyphens not allowed
-        try {
-            $arg = new StringArgument('---f');
-            $this->fail('---f passed as a valid argument');
-        } catch (ArgumentException $e) {
-            $this->assertTrue(true, 'Invalid argument caught "---f"');
-        }
+        $arg->setValue('123');
+        $this->assertInternalType('string', $arg->getValue());
+        $this->assertEquals('123', $arg->getValue());
+        
+        $arg->setValue('123abc');
+        $this->assertInternalType('string', $arg->getValue());
+        $this->assertEquals('123abc', $arg->getValue());
     }
     
     /**
-     * Test we can set a valid argument
+     * Test default value is returned
      * 
      * @return null
      */
-    public function testCanSetValidArgument()
+    public function testGetDefaultValue()
     {
-        $arg = new StringArgument('--foo');
-        $this->assertInstanceOf('Wildkat\ArgumentParser\Arguments\AbstractArgument', $arg);
+        $arg = new StringArgument();
+        $arg->setDefaultValue('foo');
+        $this->assertEquals('foo', $arg->getValue());
         
-        $arg = new StringArgument('-f');
-        $this->assertInstanceOf('Wildkat\ArgumentParser\Arguments\AbstractArgument', $arg);
+        // override value
+        $arg->setValue('bar');
+        $this->assertEquals('bar', $arg->getValue());
+    }
+    
+    /**
+     * Test show help text
+     * 
+     * @return null
+     */
+    public function testShowHelp()
+    {
+        $arg = new StringArgument();
+        $arg->setArgument('-f');
+        $arg->setArgument('--foo');
+        $arg->setHelpText('foo bar');
+        $this->assertEquals('-f, --foo          foo bar' . PHP_EOL, $arg->showHelp());
+        
+        $arg = new StringArgument();
+        $arg->setArgument('-f');
+        $arg->setHelpText('foo bar');
+        $this->assertEquals('-f          foo bar' . PHP_EOL, $arg->showHelp());
+        
+        $arg = new StringArgument();
+        $arg->setArgument('--foo');
+        $arg->setHelpText('foo bar');
+        $this->assertEquals('--foo          foo bar' . PHP_EOL, $arg->showHelp());
     }
     
 }
