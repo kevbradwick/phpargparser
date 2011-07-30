@@ -59,24 +59,39 @@ final class ArgumentParser
      * 
      * @return null
      */
-    public function addArgument($argument, $alias='', $type='string', $store=null, $default=null)
+    public function addArgument(array $options)
     {
-        $arg = $this->getArgumentClass($type);
-        $arg->setArgument($argument);
+        $opt = array_merge(array(
+            'argument' => '',
+            'alias'    => '',
+            'variable' => null,
+            'default'  => '',
+            'type'     => 'string',
+            'required' => true,
+            'help'     => ''
+        ), $options);
+                
+        $arg = $this->getArgumentClass($opt['type']);
+        $arg->setArgument($opt['argument']);
         
-        if (strlen($alias) > 0) {
-            $arg->setArgument($alias);
+        if (strlen($opt['alias']) > 0) {
+            $arg->setArgument($opt['alias']);
         }
         
-        if ($store === null) {
-            $store = str_replace('-', '', $argument);
+        if ($opt['variable'] === null) {
+            $opt['variable'] = str_replace('-', '', $opt['argument']);
         }
         
-        if ($default !== null) {
-            $arg->setDefaultValue($default);
+        if ($opt['default'] !== null) {
+            $arg->setDefaultValue($opt['default']);
         }
         
-        $this->arguments[$store] = $arg;
+        $this->arguments[$opt['variable']] 
+            = array(
+                'argumentLong'  => $arg->getArgumentName('long'),
+                'argumentshort' => $arg->getArgumentName('short'),
+                'argument'      => $arg,
+            );
         
     }//end addArgument()
     
@@ -111,7 +126,11 @@ final class ArgumentParser
      */
     public function parseArguments($arguments=null)
     {
+        unset($_SERVER['argv'][0]);
         
+        $args = $_SERVER['argv'];
+        
+        return $args;
     }//end parseArguments()
     
 }//endclass

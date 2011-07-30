@@ -116,6 +116,19 @@ abstract class AbstractArgument implements ArgumentInterface
     }//end setArgument()
     
     /**
+     * Get the argment name
+     * 
+     * @param string $type the argument type (short|long)
+     * 
+     * @return string
+     */
+    public function getArgumentName($type='short')
+    {
+        return $this->{'argument'.ucfirst($type)};
+        
+    }//end getArgumentName()
+    
+    /**
      * Set the help text
      * 
      * @param string $help the help text for this argument
