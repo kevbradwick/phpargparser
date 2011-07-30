@@ -5,9 +5,11 @@ namespace Wildkat;
 use Wildkat\ArgumentParser\ArgumentParserException;
 
 /**
- * ArgumentParser
+ * ArgumentParser.
  * 
- * @author Kevin Bradwick <kbradwick@gmail.com>
+ * @author  Kevin Bradwick <kbradwick@gmail.com>
+ * @link    https://github.com/kevbradwick/phpargparser
+ * @license http://www.opensource.org/licenses/bsd-license.php
  */
 final class ArgumentParser
 {
@@ -57,21 +59,59 @@ final class ArgumentParser
      * 
      * @return null
      */
-    public function addArgument($argument, array $options=array())
+    public function addArgument($argument, $alias='', $type='string', $store=null, $default=null)
     {
-        if (isset($this->arguments[$argument]) === true) {
-            throw new ArgumentParserException(
-                sprintf(
-                    'The argument [%s] has already been specified',
-                    $argument
-                )
-            );
+        $arg = $this->getArgumentClass($type);
+        $arg->setArgument($argument);
+        
+        if (strlen($alias) > 0) {
+            $arg->setArgument($alias);
         }
         
-        $default = array(
-            ''
-        );
+        if ($store === null) {
+            $store = str_replace('-', '', $argument);
+        }
+        
+        if ($default !== null) {
+            $arg->setDefaultValue($default);
+        }
+        
+        $this->arguments[$store] = $arg;
         
     }//end addArgument()
+    
+    /**
+     * Get the argument class
+     * 
+     * @param string $type the argument type
+     * 
+     * @return Wildkat\ArgumentParser\Arguments\AbstractArgument
+     */
+    protected function getArgumentClass($type)
+    {
+        $valid = array('string', 'integer', 'boolean', 'array', 'float');
+        
+        if (in_array($type, $valid) === false) {
+            $message = sprintf('"%s" in not a valid argument type', $type);
+            throw new ArgumentParserException($message);
+        }
+        
+        $arg = 'Wildkat\\ArgumentParser\\Arguments\\%sArgument';
+        $arg = sprintf($arg, ucfirst($type));
+        $arg = new $arg();
+        
+        return  $arg;
+        
+    }//end getArgumentClass()
+    
+    /**
+     * Parse all arguments and return the argument container
+     * 
+     * @return ArgumentContainer
+     */
+    public function parseArguments($arguments=null)
+    {
+        
+    }//end parseArguments()
     
 }//endclass
