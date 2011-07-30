@@ -28,7 +28,7 @@ class ArgumentContainer implements \ArrayAccess
     public function __construct($arguments=array())
     {
         foreach ($arguments as $name => $argument) {
-            $this->offsetSet($offset, $argument);
+            $this->offsetSet($name, $argument);
         }
         
     }//end __construct()
@@ -85,9 +85,22 @@ class ArgumentContainer implements \ArrayAccess
     public function offsetSet($offset, $value)
     {
         if ($value instanceof AbstractArgument) {
-            $this->_arguments[$offset] = $arg;
+            $this->_arguments[$offset] = $value;
         }
         
     }//end offsetSet()
+    
+    /**
+     * Property access to argument values
+     * 
+     * @param string $name the argument variable name
+     * 
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->offsetGet($name);
+        
+    }//end __get()
     
 }//end class

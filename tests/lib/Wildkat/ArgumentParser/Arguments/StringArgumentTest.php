@@ -58,17 +58,18 @@ class StringArgumentTest extends \PHPUnit_Framework_TestCase
         $arg->setArgument('-f');
         $arg->setArgument('--foo');
         $arg->setHelpText('foo bar');
-        $this->assertEquals('-f, --foo          foo bar' . PHP_EOL, $arg->showHelp());
+        $this->assertEquals('  -f, --foo               foo bar' . PHP_EOL, $arg->showHelp());
         
         $arg = new StringArgument();
         $arg->setArgument('-f');
         $arg->setHelpText('foo bar');
-        $this->assertEquals('-f          foo bar' . PHP_EOL, $arg->showHelp());
+        $this->assertEquals('  -f                      foo bar' . PHP_EOL, $arg->showHelp());
         
         $arg = new StringArgument();
         $arg->setArgument('--foo');
         $arg->setHelpText('foo bar');
-        $this->assertEquals('--foo          foo bar' . PHP_EOL, $arg->showHelp());
+        $this->assertEquals('  --foo                   foo bar' . PHP_EOL, $arg->showHelp());
     }
     
+        
 }

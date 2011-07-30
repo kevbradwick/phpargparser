@@ -45,6 +45,6 @@ class ArrayArgumentTest extends \PHPUnit_Framework_TestCase
         ));
         
         $this->assertEquals(array(123), $arg->getValue());
-        $this->assertEquals('-f          foobar' . PHP_EOL, $arg->showHelp());
+        $this->assertEquals('  -f                      foobar' . PHP_EOL, $arg->showHelp());
     }
 }

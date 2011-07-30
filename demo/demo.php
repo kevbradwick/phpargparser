@@ -36,7 +36,7 @@ $parser->addArgument(array(
     'default'  => 'hello!',
     'type'     => 'string',
     'required' => true,
-    'help'     => 'A simple message argument that stores as a php string'
+    'helpText' => 'A simple message argument that stores as a php string'
 ));
 
 $parser->addArgument(array(
@@ -46,9 +46,15 @@ $parser->addArgument(array(
     'default'  => false,
     'type'     => 'boolean',
     'required' => true,
-    'help'     => 'A boolean argument stored in the useDb variable'
+    'helpText' => 'A boolean argument stored in the useDb variable'
 ));
 
 // get the arguments
 $arguments = $parser->parseArguments();
-var_dump($arguments);
+
+/**
+ * The $arguments variable now contains the processed variables and can be access
+ * as an array or via class properties
+ */
+var_dump($arguments->boolVal);
+var_dump($arguments->message);

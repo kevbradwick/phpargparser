@@ -148,18 +148,19 @@ abstract class AbstractArgument implements ArgumentInterface
      */
     public function showHelp()
     {
-        $help = '';
+        $help = '  ';
         
         if (strlen($this->argumentShort) > 0) {
             $help .= $this->argumentShort;
         }
         
         if (strlen($this->argumentLong) > 0) {
-            $help .= $help === '' ? '' : ', ';
+            $help .= $help === '  ' ? '' : ', ';
             $help .= $this->argumentLong;
         }
         
-        $help .= '          ';
+        $pad   = (26 - strlen($help));
+        $help .= str_repeat(' ', $pad);
         $help .= $this->helpText;
         $help .= PHP_EOL;
         
