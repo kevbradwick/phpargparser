@@ -10,7 +10,7 @@ Usage
 
 1) Create a new argument parser object passing it name, description and version
 
-    $parser = new ArgumentParser();
+    $parser = new ArgumentParser('My App', 'A short description', '1.0');
 
 2) Add some arguments
 
@@ -32,8 +32,40 @@ Usage
     $args['myArg']; // 'foo'
     $args->myArg; // 'foo'
 
-Note
-----
+Data Types
+----------
+
+The data types that are available are;
+
+* string
+* integer
+* float
+* boolean
+* array
+
+The following boolean values equate to false;
+
+* 0
+* false
+* no
+* n
+* '' (empty string)
+
+When processing values into an array, you must provide a comma separated list
+
+    $ php myscript.php --myarray=foo,bar,baz
+
+    // returns
+    array('foo', 'bar', 'baz');
+
+Notes
+-----
 
 My default, the version (-v, --version) and help (-h, --help) arguments are 
 set automatically.
+
+Version History
+---------------
+
+#### 0.1 (30 July 2011)
+The initial beta release
