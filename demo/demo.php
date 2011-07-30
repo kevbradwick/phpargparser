@@ -40,13 +40,23 @@ $parser->addArgument(array(
 ));
 
 $parser->addArgument(array(
-    'argument' => '--boolean-value',
-    'alias'    => '-b',
-    'variable' => 'boolVal',
-    'default'  => false,
-    'type'     => 'boolean',
-    'required' => true,
-    'helpText' => 'A boolean argument stored in the useDb variable'
+    'argument' => '--integer-value',
+    'alias'    => '-i',
+    'variable' => 'intVal',
+    'default'  => 345,
+    'type'     => 'integer',
+    'required' => false,
+    'helpText' => 'An integer argument'
+));
+
+$parser->addArgument(array(
+    'argument' => '--array',
+    'alias'    => '-a',
+    'variable' => 'arrayVal',
+    'default'  => 'foo,bar,baz',
+    'type'     => 'array',
+    'required' => false,
+    'helpText' => 'An array argument'
 ));
 
 // get the arguments
@@ -54,7 +64,12 @@ $arguments = $parser->parseArguments();
 
 /**
  * The $arguments variable now contains the processed variables and can be access
- * as an array or via class properties
+ * as an array or via class properties;
+ * 
+ * $arguments->boolVal
+ * $arguments['message']
  */
-var_dump($arguments->boolVal);
-var_dump($arguments->message);
+
+echo sprintf('%s => %s%s', 'message', $arguments->message, PHP_EOL);
+echo sprintf('%s => %s%s', 'intVal', $arguments->intVal, PHP_EOL);
+echo sprintf('%s => %s%s', 'arrayVal', gettype($arguments->arrayVal), PHP_EOL);

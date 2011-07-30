@@ -32,6 +32,12 @@ Usage
     $args['myArg']; // 'foo'
     $args->myArg; // 'foo'
 
+Demo
+----
+
+See the `demo.php` file for an example of how to use the library. You can
+execute it on the command line with `php demo.php`
+
 Data Types
 ----------
 
@@ -67,5 +73,4 @@ set automatically.
 Version History
 ---------------
 
-#### 0.1 (30 July 2011)
-The initial beta release
+* 0.1 (30 July 2011)
