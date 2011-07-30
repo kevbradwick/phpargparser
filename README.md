@@ -8,11 +8,11 @@ help and version arguments.
 Usage
 -----
 
-1. Create a new argument parser object
+### Create a new argument parser object
 
     $parser = new ArgumentParser();
 
-2. Add some arguments
+#### Add some arguments
 
     $parser->addArgument(array(
         'argument' => '--my-argument',
