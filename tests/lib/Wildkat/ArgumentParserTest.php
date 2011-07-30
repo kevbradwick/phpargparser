@@ -56,6 +56,56 @@ class ArgumentParserTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Test version number gets displayed
+     * 
+     * @return null
+     */
+    public function testVersionDisplay()
+    {
+        $parser = $this->mockParser();
+        ob_start();
+        $parser->parseArguments('-v');
+        $version = ob_get_clean();
+        
+        $this->assertEquals('test 1.0' . PHP_EOL, $version);
+    }
+    
+    /**
+     * Test agrgument container is returned
+     * 
+     * @return null
+     */
+    public function testParseArguments()
+    {
+        $parser = $this->mockParser();
+        $args = $parser->parseArguments('--integer=12 -s testString -f 56.1 --array=foo,bar,baz');
+        
+        $this->assertInstanceOf('Wildkat\ArgumentParser\ArgumentContainer', $args);
+        $this->assertEquals(12, $args['intVar']);
+        $this->assertEquals(12, $args->intVar);
+        
+        $this->assertEquals('testString', $args->stringVar);
+        $this->assertEquals(56.1, $args->floatVar);
+        $this->assertEquals(array('foo','bar','baz'), $args->arrayVar);
+        $this->assertFalse($args->boolVar);
+        
+        // unknown value returns null
+        $this->assertEquals(null, $args->foo);
+    }
+    
+    /**
+     * @expectedException Wildkat\ArgumentParser\ArgumentParserException
+     */
+    public function testAddingInvalidTypeThrowsAnException()
+    {
+        $parser = new ArgumentParser();
+        $parser->addArgument(array(
+            'argument' => '-f',
+            'type' => 'object'
+        ));
+    }
+    
+    /**
      * Some default arguments to test with
      * 
      * @return array

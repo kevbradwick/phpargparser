@@ -208,7 +208,11 @@ final class ArgumentParser
             && in_array($args[1], array('-h', '--help')) === true
         ) {
             $this->showHelp();
-            $this->terminate();
+            if (self::$unitTestEnabled === true) {
+                return true;
+            }
+            
+            exit(1);
         }
         
         // show verion info
@@ -216,7 +220,11 @@ final class ArgumentParser
             && in_array($args[1], array('-v', '--version')) === true
         ) {
             echo sprintf('%s %s', $this->title, $this->version) . PHP_EOL;
-            $this->terminate();
+            if (self::$unitTestEnabled === true) {
+                return true;
+            }
+            
+            exit(1);
         }
         
         $this->populateArgumentValues($args);
@@ -240,7 +248,7 @@ final class ArgumentParser
     {
         foreach ($args as $index => $value) {
             // process word arguments
-            if (preg_match('/^\-{2}[a-z\-]*\=[a-zA-Z0-9]*$/', $value) === 1) {
+            if (preg_match('/^\-{2}[a-z\-]*\=[a-zA-Z0-9\,]*$/', $value) === 1) {
                 list($arg, $value) = explode('=', $value);
                 if (isset($this->argumentMap[$arg]) === true) {
                     $key = $this->argumentMap[$arg];
@@ -260,23 +268,5 @@ final class ArgumentParser
         }
         
     }//end populateArgumentValues()
-
-    /**
-     * Terminate the process
-     * 
-     * @param boolean $success if should terminate succesfully
-     * 
-     * @return null
-     */
-    protected function terminate($success=true)
-    {
-        if (self::$unitTestEnabled === true) {
-            return true;
-        }
-        
-        $status = $success === true ? 1 : 0;
-        
-        exit($status);
-    }
     
 }//endclass

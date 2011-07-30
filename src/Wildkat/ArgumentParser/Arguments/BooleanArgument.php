@@ -18,7 +18,7 @@ class BooleanArgument extends AbstractArgument
      */
     public function getValue()
     {
-        $falseValues = array('false', 'no', '0', 'n');
+        $falseValues = array('false', 'no', '0', 'n', '');
         
         return !in_array(strtolower((string) $this->value), $falseValues);
         
